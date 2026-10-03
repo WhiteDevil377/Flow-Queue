@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Flow Queue logo">
+  <rect width="128" height="128" rx="28" fill="#f6f8fb"/>
+  <path d="M22 22h57v20H44v16h29v19H44v29H22V22Z" fill="#f43b9d"/>
+  <path d="m22 22 12 8v76l-12 8V22Z" fill="#cf247d"/>
+  <path d="M77 39c19 0 32 14 32 34 0 9-3 17-8 23l11 11-14 13-12-13c-3 1-6 1-9 1-19 0-32-14-32-35s13-34 32-34Zm0 20c-7 0-11 5-11 14 0 10 4 15 11 15s11-5 11-15c0-9-4-14-11-14Z" fill="#28c7e7" fill-rule="evenodd"/>
+  <path d="m86 88 15 8 11 11-14 13-12-13V88Z" fill="#16a8d0"/>
+  <path d="M44 58h29v19H44V58Z" fill="#ff6c73"/>
+</svg>

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="440" height="280" viewBox="0 0 440 280">
+  <rect width="440" height="280" fill="#0b1116"/>
+  <rect x="28" y="28" width="86" height="86" rx="20" fill="#f6f8fb"/>
+  <path d="M43 43h39v14H58v11h20v13H58v20H43V43Z" fill="#f43b9d"/>
+  <path d="M80 55c14 0 23 10 23 24 0 7-2 12-6 17l8 8-10 9-9-9h-6c-14 0-23-10-23-25s9-24 23-24Zm0 14c-5 0-8 4-8 10 0 7 3 11 8 11s8-4 8-11c0-6-3-10-8-10Z" fill="#28c7e7" fill-rule="evenodd"/>
+  <text x="28" y="158" fill="#f5f8fa" font-family="Arial, sans-serif" font-size="34" font-weight="700">Flow Queue</text>
+  <text x="28" y="192" fill="#aab9c4" font-family="Arial, sans-serif" font-size="18">Batch Veo and image generation</text>
+  <rect x="28" y="222" width="94" height="30" rx="15" fill="#153b49"/>
+  <text x="75" y="243" text-anchor="middle" fill="#6ed4ed" font-family="Arial, sans-serif" font-size="14" font-weight="700">QUEUE</text>
+  <rect x="130" y="222" width="116" height="30" rx="15" fill="#3a1830"/>
+  <text x="188" y="243" text-anchor="middle" fill="#ff87c5" font-family="Arial, sans-serif" font-size="14" font-weight="700">DOWNLOAD</text>
+  <circle cx="366" cy="82" r="50" fill="#102a34"/>
+  <path d="M343 58h46v15h-28v12h24v15h-24v27h-18V58Z" fill="#f43b9d"/>
+  <path d="m372 94 17-11 16 22-17 11-16-22Z" fill="#28c7e7"/>
+</svg>

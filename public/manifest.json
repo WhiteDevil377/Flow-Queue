@@ -1,0 +1,43 @@
+{
+  "name": "__MSG_extensionName__",
+  "description": "__MSG_extensionDescription__",
+  "default_locale": "en",
+  "version": "1.0.45",
+  "minimum_chrome_version": "120",
+  "manifest_version": 3,
+  "short_name": "__MSG_extensionShortName__",
+  "action": {
+    "default_title": "__MSG_extensionName__"
+  },
+  "background": {
+    "service_worker": "assets/background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "js": ["assets/content.js"],
+      "matches": ["*://flow.google.com/*", "*://labs.google/*"],
+      "run_at": "document_end",
+      "all_frames": false
+    }
+  ],
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "permissions": [
+    "clipboardWrite",
+    "cookies",
+    "debugger",
+    "downloads",
+    "sidePanel",
+    "storage"
+  ],
+  "host_permissions": ["*://flow.google.com/*", "*://labs.google/*"],
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "offline_enabled": true
+}

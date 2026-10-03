@@ -1,0 +1,35 @@
+{
+  "name": "flow-queue",
+  "version": "1.0.45",
+  "description": "Flow Queue - Auto Veo & Nano Banana for Google Flow",
+  "private": true,
+  "license": "UNLICENSED",
+  "type": "module",
+  "scripts": {
+    "build": "npm run lint && tsc --noEmit && vite build && node scripts/finalize-build.mjs && npm run audit:licenses && npm run audit:release && npm run audit:webstore",
+    "release": "npm run build && npm run assets:store && node scripts/package-release.mjs",
+    "dev": "vite build --watch",
+    "lint": "eslint src scripts vite.config.ts --max-warnings=0",
+    "audit:licenses": "node scripts/audit-licenses.mjs",
+    "audit:release": "node scripts/audit-release.mjs",
+    "audit:webstore": "node scripts/audit-webstore.mjs",
+    "assets:store": "node scripts/generate-store-assets.mjs"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "^5.0.0",
+    "vite": "^7.0.0",
+    "typescript": "^5.8.3",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "lucide-react": "^0.468.0",
+    "esbuild": "^0.27.0"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.326",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "eslint": "^9.39.1",
+    "globals": "^16.5.0",
+    "typescript-eslint": "^8.46.4"
+  }
+}

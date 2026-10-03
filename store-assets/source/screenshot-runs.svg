@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="800" viewBox="0 0 1280 800">
+  <rect width="1280" height="800" fill="#f3f6f7"/>
+  <text x="54" y="72" fill="#172127" font-family="Arial, sans-serif" font-size="36" font-weight="700">Large batches stay organized.</text>
+  <text x="54" y="106" fill="#60717a" font-family="Arial, sans-serif" font-size="18">Track every prompt, retry failures, and keep downloads numbered correctly.</text>
+
+  <rect x="54" y="142" width="1172" height="108" rx="12" fill="#fff" stroke="#c9d6dc" stroke-width="2"/>
+  <text x="82" y="180" fill="#172127" font-family="Arial, sans-serif" font-size="21" font-weight="700">Current run</text>
+  <text x="1196" y="180" text-anchor="end" fill="#172127" font-family="Arial, sans-serif" font-size="20" font-weight="700">72 / 96</text>
+  <rect x="82" y="202" width="1114" height="18" rx="9" fill="#dce5e9"/>
+  <rect x="82" y="202" width="836" height="18" rx="9" fill="#2fbddd"/>
+
+  <rect x="54" y="274" width="762" height="450" rx="12" fill="#fff" stroke="#c9d6dc" stroke-width="2"/>
+  <text x="82" y="314" fill="#172127" font-family="Arial, sans-serif" font-size="22" font-weight="700">Prompt results</text>
+  <text x="786" y="314" text-anchor="end" fill="#60717a" font-family="Arial, sans-serif" font-size="15">Live status</text>
+
+  <rect x="82" y="338" width="706" height="62" rx="9" fill="#eef9f2"/>
+  <circle cx="110" cy="369" r="13" fill="#35a568"/>
+  <path d="m103 369 5 5 10-12" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+  <text x="136" y="365" fill="#172127" font-family="Arial, sans-serif" font-size="16" font-weight="700">15. Golden-hour product reveal</text>
+  <text x="136" y="386" fill="#547064" font-family="Arial, sans-serif" font-size="14">Downloaded as campaign-015.png</text>
+  <text x="760" y="375" text-anchor="end" fill="#288557" font-family="Arial, sans-serif" font-size="15" font-weight="700">DONE</text>
+
+  <rect x="82" y="410" width="706" height="62" rx="9" fill="#eef9f2"/>
+  <circle cx="110" cy="441" r="13" fill="#35a568"/>
+  <path d="m103 441 5 5 10-12" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+  <text x="136" y="437" fill="#172127" font-family="Arial, sans-serif" font-size="16" font-weight="700">16. Wide cinematic city flyover</text>
+  <text x="136" y="458" fill="#547064" font-family="Arial, sans-serif" font-size="14">Downloaded as campaign-016.mp4</text>
+  <text x="760" y="447" text-anchor="end" fill="#288557" font-family="Arial, sans-serif" font-size="15" font-weight="700">DONE</text>
+
+  <rect x="82" y="482" width="706" height="62" rx="9" fill="#edf8fb"/>
+  <circle cx="110" cy="513" r="13" fill="#2ba5cd"/>
+  <path d="m105 505 12 8-12 8Z" fill="#fff"/>
+  <text x="136" y="509" fill="#172127" font-family="Arial, sans-serif" font-size="16" font-weight="700">17. Macro texture transformation</text>
+  <text x="136" y="530" fill="#55727e" font-family="Arial, sans-serif" font-size="14">Generation in progress</text>
+  <text x="760" y="519" text-anchor="end" fill="#177fa4" font-family="Arial, sans-serif" font-size="15" font-weight="700">68%</text>
+
+  <rect x="82" y="554" width="706" height="62" rx="9" fill="#fff8e8"/>
+  <circle cx="110" cy="585" r="13" fill="#dda20d"/>
+  <text x="110" y="591" text-anchor="middle" fill="#fff" font-family="Arial, sans-serif" font-size="17" font-weight="700">↻</text>
+  <text x="136" y="581" fill="#172127" font-family="Arial, sans-serif" font-size="16" font-weight="700">18. Neon portrait variation</text>
+  <text x="136" y="602" fill="#7a641f" font-family="Arial, sans-serif" font-size="14">Retrying automatically · attempt 2 of 3</text>
+  <text x="760" y="591" text-anchor="end" fill="#9b7410" font-family="Arial, sans-serif" font-size="15" font-weight="700">RETRY</text>
+
+  <rect x="82" y="626" width="706" height="62" rx="9" fill="#f7f9fa"/>
+  <circle cx="110" cy="657" r="6" fill="#8da0ab"/>
+  <text x="136" y="663" fill="#52636d" font-family="Arial, sans-serif" font-size="16" font-weight="700">19. Minimal editorial composition</text>
+  <text x="760" y="663" text-anchor="end" fill="#71848e" font-family="Arial, sans-serif" font-size="15" font-weight="700">QUEUED</text>
+
+  <rect x="840" y="274" width="386" height="450" rx="12" fill="#fff" stroke="#c9d6dc" stroke-width="2"/>
+  <text x="870" y="314" fill="#172127" font-family="Arial, sans-serif" font-size="22" font-weight="700">Download control</text>
+  <rect x="870" y="342" width="326" height="82" rx="10" fill="#e9f7fb" stroke="#2ba5cd" stroke-width="2"/>
+  <text x="892" y="374" fill="#153b49" font-family="Arial, sans-serif" font-size="18" font-weight="700">Auto download</text>
+  <text x="892" y="400" fill="#567580" font-family="Arial, sans-serif" font-size="14">Images and videos saved in order</text>
+  <rect x="1110" y="360" width="62" height="32" rx="16" fill="#2ba5cd"/>
+  <circle cx="1156" cy="376" r="12" fill="#fff"/>
+
+  <text x="870" y="466" fill="#40515a" font-family="Arial, sans-serif" font-size="14" font-weight="700">FOLDER</text>
+  <rect x="870" y="480" width="326" height="50" rx="8" fill="#f8fafb" stroke="#becdd3" stroke-width="2"/>
+  <text x="890" y="512" fill="#172127" font-family="Arial, sans-serif" font-size="17">Flow Queue / Campaign 06</text>
+
+  <text x="870" y="568" fill="#40515a" font-family="Arial, sans-serif" font-size="14" font-weight="700">FILENAME SEQUENCE</text>
+  <rect x="870" y="582" width="326" height="50" rx="8" fill="#f8fafb" stroke="#becdd3" stroke-width="2"/>
+  <text x="890" y="614" fill="#172127" font-family="Arial, sans-serif" font-size="17">campaign-015 → 096</text>
+
+  <rect x="870" y="654" width="326" height="42" rx="8" fill="#173f4e"/>
+  <text x="1033" y="681" text-anchor="middle" fill="#76daef" font-family="Arial, sans-serif" font-size="15" font-weight="700">CONCURRENCY-SAFE NUMBERING</text>
+</svg>

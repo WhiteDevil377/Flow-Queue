@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="560" viewBox="0 0 1400 560">
+  <rect width="1400" height="560" fill="#0b1116"/>
+  <rect x="0" y="0" width="18" height="560" fill="#28c7e7"/>
+  <rect x="18" y="0" width="10" height="560" fill="#f43b9d"/>
+  <rect x="92" y="100" width="168" height="168" rx="38" fill="#f6f8fb"/>
+  <path d="M122 130h79v29h-49v22h41v27h-41v61h-30V130Z" fill="#f43b9d"/>
+  <path d="M197 154c29 0 49 21 49 52 0 14-5 27-13 36l17 18-21 20-19-21c-4 1-9 2-13 2-29 0-49-22-49-54s20-53 49-53Zm0 30c-11 0-17 8-17 23 0 16 6 24 17 24s17-8 17-24c0-15-6-23-17-23Z" fill="#28c7e7" fill-rule="evenodd"/>
+  <text x="92" y="344" fill="#f5f8fa" font-family="Arial, sans-serif" font-size="68" font-weight="700">Flow Queue</text>
+  <text x="92" y="402" fill="#aab9c4" font-family="Arial, sans-serif" font-size="30">Automate image and video batches for Google Flow™</text>
+  <rect x="92" y="448" width="196" height="54" rx="27" fill="#143b49"/>
+  <text x="190" y="483" text-anchor="middle" fill="#72d9ef" font-family="Arial, sans-serif" font-size="22" font-weight="700">MULTI-PROMPT</text>
+  <rect x="306" y="448" width="204" height="54" rx="27" fill="#3b182f"/>
+  <text x="408" y="483" text-anchor="middle" fill="#ff8bc8" font-family="Arial, sans-serif" font-size="22" font-weight="700">AUTO DOWNLOAD</text>
+  <rect x="794" y="82" width="496" height="396" rx="28" fill="#131b21" stroke="#334550" stroke-width="3"/>
+  <rect x="826" y="116" width="432" height="64" rx="14" fill="#112932" stroke="#2c829e" stroke-width="2"/>
+  <circle cx="858" cy="148" r="10" fill="#28c7e7"/>
+  <text x="882" y="155" fill="#eaf2f6" font-family="Arial, sans-serif" font-size="24" font-weight="700">Connected and ready</text>
+  <rect x="826" y="204" width="432" height="94" rx="14" fill="#0f161b" stroke="#2b3942" stroke-width="2"/>
+  <text x="850" y="238" fill="#aab9c4" font-family="Arial, sans-serif" font-size="17">PROMPT QUEUE</text>
+  <rect x="850" y="254" width="260" height="16" rx="8" fill="#334550"/>
+  <rect x="850" y="254" width="192" height="16" rx="8" fill="#28c7e7"/>
+  <text x="1174" y="270" fill="#eaf2f6" font-family="Arial, sans-serif" font-size="18" font-weight="700">18 / 24</text>
+  <rect x="826" y="322" width="202" height="116" rx="14" fill="#152027"/>
+  <rect x="1056" y="322" width="202" height="116" rx="14" fill="#152027"/>
+  <text x="850" y="356" fill="#aab9c4" font-family="Arial, sans-serif" font-size="16">CONCURRENT</text>
+  <text x="850" y="410" fill="#f5f8fa" font-family="Arial, sans-serif" font-size="48" font-weight="700">3</text>
+  <text x="1080" y="356" fill="#aab9c4" font-family="Arial, sans-serif" font-size="16">AUTO DOWNLOAD</text>
+  <rect x="1080" y="380" width="112" height="42" rx="21" fill="#28a9cf"/>
+  <circle cx="1171" cy="401" r="16" fill="#ffffff"/>
+</svg>
