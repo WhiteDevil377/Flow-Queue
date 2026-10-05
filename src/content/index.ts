@@ -50,12 +50,11 @@ interface RunningGroup extends PromptGroup {
   completedIndexes: Set<number>;
   submittedIndexes: Set<number>;
   submittedAtByIndex: Map<number, number>;
+  knownBeforeTileIdsByIndex: Map<number, Set<string>>;
   tileFirstSeenAt: Map<string, number>;
   tileOwners: Map<string, number>;
   tileOwnerClaims: Map<string, TileOwnerClaim>;
   tileOwnerRects: Map<string, RectSnapshot>;
-  downloadedVideoCardKeys: Map<string, number>;
-  reservedVideoCardKeys: Map<string, number>;
   downloadedResourceKeys: Set<string>;
   videoResourceClaims: Map<string, number>;
   tileWaitOrder: number[];
@@ -186,12 +185,11 @@ async function startPromptGroup(request: StartPromptGroupRequest, sendResponse: 
     completedIndexes: new Set(),
     submittedIndexes: new Set(),
     submittedAtByIndex: new Map(),
+    knownBeforeTileIdsByIndex: new Map(),
     tileFirstSeenAt: new Map(),
     tileOwners: new Map(),
     tileOwnerClaims: new Map(),
     tileOwnerRects: new Map(),
-    downloadedVideoCardKeys: new Map(),
-    reservedVideoCardKeys: new Map(),
     downloadedResourceKeys: new Set(),
     videoResourceClaims: new Map(),
     tileWaitOrder: [],
@@ -422,6 +420,7 @@ async function runPromptWithRetry(group: RunningGroup, index: number) {
           percentage: 0,
           error: `Retry ${retry + 1}/${maxRetries}: ${message}`
         });
+        await resetComposerAfterPromptFailure(payload, group.id, index);
         await sleep(1500);
         continue;
       }
@@ -439,6 +438,22 @@ async function runPromptWithRetry(group: RunningGroup, index: number) {
   group.completedIndexes.add(index);
   group.processedCount = group.completedIndexes.size;
   publish(group);
+}
+
+async function resetComposerAfterPromptFailure(payload: PromptPayload, groupId?: string, promptIndex?: number) {
+  try {
+    await closeTransientFlowUi(groupId, promptIndex);
+    if (payload.imageIds?.length) await clearComposerAttachments(groupId, promptIndex);
+    const clearPrompt = findComposerClearPromptButton();
+    if (clearPrompt) {
+      log("debug", "Clearing stale Flow prompt before retry", { button: describeElement(clearPrompt) }, groupId, promptIndex);
+      await clickElement(clearPrompt);
+      await sleep(250);
+    }
+    await closeTransientFlowUi(groupId, promptIndex);
+  } catch (cleanupError) {
+    log("warn", "Could not fully reset Flow composer before retry", { error: errorToText(cleanupError) }, groupId, promptIndex);
+  }
 }
 
 function ensureDownloadableResources(payload: PromptPayload, resources: string[]) {
@@ -520,6 +535,7 @@ async function executePrompt(payload: PromptPayload, group: RunningGroup, index:
   await closeTransientFlowUi(group.id, index);
   ensureRequiredAttachments(attachmentState);
   const knownBeforeSubmit = collectTileIds();
+  group.knownBeforeTileIdsByIndex.set(index, new Set(knownBeforeSubmit));
   rememberObservedTileIds(group, knownBeforeSubmit);
   const staleResourceUrls = collectVisibleResourceUrls(payload.mode.includes("video"));
   staleResourceUrlsByPromptRun.set(promptRunKey(group, index, payload), new Set(staleResourceUrls));
@@ -2087,7 +2103,7 @@ function collectRelatedTileIds(group: RunningGroup, index: number, payload: Prom
     const status = describeTileStatus(tileId);
     if (!status) return false;
     if (payload.mode.includes("video") && status.imageOnly && !status.videoLike) return false;
-    if (payload.mode.includes("video") && !videoCardWasNotDownloadedForAnotherPrompt(status, group, index)) return false;
+    if (payload.mode.includes("video") && resourceWasAlreadyDownloaded(flowCardDownloadResource(status.tileId), group)) return false;
     const tile = tileElementForId(tileId);
     const rect = tile?.getBoundingClientRect();
     const matchesKnownTile = Boolean(rect && knownRects.some((knownRect) => rectsRepresentSameTile(rect, knownRect)));
@@ -2393,8 +2409,7 @@ function countActiveGenerationTiles() {
 }
 
 function finalUnclaimedVideoCardStatuses(group: RunningGroup, index: number, payload: PromptPayload) {
-  if (group.pendingIndexes.length > 0 || group.runningIndexes.size > 1) return [];
-  const submittedAt = group.submittedAtByIndex.get(index) ?? 0;
+  if (group.runningIndexes.size > 1) return [];
   return collectTileIds()
     .filter((tileId) => {
       const owner = group.tileOwners.get(tileId);
@@ -2404,11 +2419,7 @@ function finalUnclaimedVideoCardStatuses(group: RunningGroup, index: number, pay
     .filter((status): status is TileStatus => Boolean(status))
     .filter((status) => {
       if (!isTileComplete(status) || !canUseStatusForVideoDownload(status)) return false;
-      if (!tileTextLooksRelatedToPrompt(status.text, payload.prompt)) return false;
-      if (!videoCardWasNotDownloadedForAnotherPrompt(status, group, index)) return false;
-      const firstSeenAt = group.tileFirstSeenAt.get(status.tileId) ?? Date.now();
-      if (submittedAt && firstSeenAt < submittedAt - 1000) return false;
-      return true;
+      return videoStatusBelongsToCurrentTurn(status, group, index);
     })
     .sort((a, b) => videoCardDownloadScore(b, payload, group, index) -
       videoCardDownloadScore(a, payload, group, index));
@@ -2425,42 +2436,24 @@ function completedVideoCardDownloadResources(
   index: number
 ) {
   const availableStatuses = statuses
-    .filter((status) => videoCardWasNotDownloadedForAnotherPrompt(status, group, index));
-  const promptMatchedStatuses = availableStatuses
-    .filter((status) => tileTextLooksRelatedToPrompt(status.text, payload.prompt));
-  const rankedStatuses = promptMatchedStatuses
+    .filter((status) => videoStatusBelongsToCurrentTurn(status, group, index));
+  const rankedStatuses = availableStatuses
     .sort((a, b) => videoCardDownloadScore(b, payload, group, index) -
       videoCardDownloadScore(a, payload, group, index));
   const selectedStatuses = rankedStatuses
     .slice(0, Math.max(payload.outputCount, Math.min(3, rankedStatuses.length)));
-  selectedStatuses.forEach((status) => rememberReservedFlowCard(status, group, index));
   return selectedStatuses.map((status) => flowCardDownloadResource(status.tileId));
 }
 
-function rememberDownloadedFlowCard(resource: string, group: RunningGroup, index: number) {
-  const status = describeTileStatus(decodeFlowCardDownloadResource(resource));
-  const key = status ? videoCardDedupeKey(status) : "";
-  if (key) {
-    group.reservedVideoCardKeys.set(key, index);
-    group.downloadedVideoCardKeys.set(key, index);
-  }
-}
-
-function rememberReservedFlowCard(status: TileStatus, group: RunningGroup, index: number) {
-  const key = videoCardDedupeKey(status);
-  if (key) group.reservedVideoCardKeys.set(key, index);
-}
-
-function videoCardWasNotDownloadedForAnotherPrompt(status: TileStatus, group: RunningGroup, index: number) {
-  const key = videoCardDedupeKey(status);
-  const downloadedOwner = key ? group.downloadedVideoCardKeys.get(key) : undefined;
-  const reservedOwner = key ? group.reservedVideoCardKeys.get(key) : undefined;
-  return (downloadedOwner === undefined || downloadedOwner === index) &&
-    (reservedOwner === undefined || reservedOwner === index);
-}
-
-function videoCardDedupeKey(status: TileStatus) {
-  return videoContextLabelForStatus(status);
+function videoStatusBelongsToCurrentTurn(status: TileStatus, group: RunningGroup, index: number) {
+  if (group.knownBeforeTileIdsByIndex.get(index)?.has(status.tileId)) return false;
+  if (resourceWasAlreadyDownloaded(flowCardDownloadResource(status.tileId), group)) return false;
+  const owner = tilePromptOwner(group, status.tileId);
+  if (owner !== undefined && owner !== index) return false;
+  const submittedAt = group.submittedAtByIndex.get(index) ?? 0;
+  const firstSeenAt = group.tileFirstSeenAt.get(status.tileId) ?? Date.now();
+  if (submittedAt && firstSeenAt < submittedAt - 1000) return false;
+  return true;
 }
 
 function videoCardDownloadScore(status: TileStatus, payload: PromptPayload, group: RunningGroup, index: number) {
@@ -2544,7 +2537,6 @@ async function downloadResources(resources: string[], payload: PromptPayload, gr
     if (result.success) {
       downloaded += 1;
       rememberDownloadedResource(url, group);
-      if (isFlowCardDownloadResource(url)) rememberDownloadedFlowCard(url, group, index);
       log("info", "Chrome download completed", { filename, downloadId: result.downloadId, state: result.state ?? "complete" }, group.id, index);
       if (downloaded >= payload.outputCount) break;
     } else {
@@ -2552,6 +2544,9 @@ async function downloadResources(resources: string[], payload: PromptPayload, gr
       if (isFlowCardDownloadResource(url) && resourceIndex < resources.length - 1) continue;
       throw new Error(result.error || "Chrome download failed.");
     }
+  }
+  if (payload.mode.includes("video") && downloaded < payload.outputCount) {
+    throw new Error("Flow returned a video that was already downloaded. Retrying for a new video.");
   }
   return downloaded;
 }
@@ -4392,10 +4387,8 @@ function findComposerClearPromptButton() {
 
 function findComposerAttachmentControls() {
   const editor = findNormalFlowComposerEditor();
-  const container = findComposerContainer();
-  const scope = container ?? document;
   const editorRect = editor?.getBoundingClientRect();
-  return [...scope.querySelectorAll<HTMLElement>("button, [role='button']")]
+  return [...document.querySelectorAll<HTMLElement>("button, [role='button']")]
     .filter((element) => {
       if (!isVisible(element) || isDisabled(element)) return false;
       const label = normalizeOptionText(elementLabel(element));
